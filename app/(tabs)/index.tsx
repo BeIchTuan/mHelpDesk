@@ -1,98 +1,115 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import {
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const quickActions = [
+    { id: '1', title: 'Đồ của tôi', icon: 'shippingbox.fill' as any, route: '/my-items' as any, color: '#39A3FF' },
+    { id: '2', title: 'Đặt dịch vụ', icon: 'wrench.and.screwdriver.fill' as any, route: '/explore' as any, color: '#FF9149' },
+    { id: '3', title: 'Giỏ hàng', icon: 'cart.fill' as any, route: '/cart' as any, color: '#4CAF50' },
+    { id: '4', title: 'Thông báo', icon: 'bell.fill' as any, route: '/notifications' as any, color: '#FF9149' },
+  ];
+
+  return (
+    <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+      {/* Header */}
+      <View className="bg-primary pt-4 pb-8 px-5 rounded-b-3xl">
+        <Text className="text-2xl font-bold text-white mb-1">
+          Chào mừng đến EzCare! 👋
+        </Text>
+        <Text className="text-sm text-white opacity-90">
+          Quản lý và chăm sóc vật dụng của bạn
+        </Text>
+      </View>
+
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ padding: 20 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Quick Actions */}
+        <Text className="text-base font-bold text-textDark mb-4">Truy cập nhanh</Text>
+        <View className="flex-row flex-wrap -mx-2 mb-6">
+          {quickActions.map((action) => (
+            <TouchableOpacity
+              key={action.id}
+              className="w-1/2 px-2 mb-4"
+              onPress={() => router.push(action.route)}
+            >
+              <View className="bg-white rounded-2xl p-4 items-center shadow-md">
+                <View
+                  className="w-14 h-14 rounded-full items-center justify-center mb-3"
+                  style={{ backgroundColor: action.color + '20' }}
+                >
+                  <IconSymbol name={action.icon} size={28} color={action.color} />
+                </View>
+                <Text className="text-sm font-semibold text-textDark text-center">
+                  {action.title}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Tips Section */}
+        <Text className="text-base font-bold text-textDark mb-4">Mẹo bảo dưỡng</Text>
+        <View className="bg-white rounded-2xl p-4 mb-4 shadow-md">
+          <View className="flex-row items-start">
+            <View className="w-12 h-12 rounded-full items-center justify-center mr-3" style={{ backgroundColor: '#FF914920' }}>
+              <Text className="text-2xl">💡</Text>
+            </View>
+            <View className="flex-1">
+              <Text className="text-sm font-bold text-textDark mb-1">
+                Kiểm tra định kỳ
+              </Text>
+              <Text className="text-xs text-textLight">
+                Thiết bị được bảo dưỡng định kỳ sẽ kéo dài tuổi thọ và giảm chi phí sửa chữa
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4 shadow-md">
+          <View className="flex-row items-start">
+            <View className="w-12 h-12 rounded-full bg-success/20 items-center justify-center mr-3">
+              <Text className="text-2xl">📝</Text>
+            </View>
+            <View className="flex-1">
+              <Text className="text-sm font-bold text-textDark mb-1">
+                Lưu trữ tài liệu
+              </Text>
+              <Text className="text-xs text-textLight">
+                Ghi chép đầy đủ thông tin bảo hành và hướng dẫn sử dụng của thiết bị
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 shadow-md">
+          <View className="flex-row items-start">
+            <View className="w-12 h-12 rounded-full bg-error/20 items-center justify-center mr-3">
+              <Text className="text-2xl">⚠️</Text>
+            </View>
+            <View className="flex-1">
+              <Text className="text-sm font-bold text-textDark mb-1">
+                Nhận thông báo
+              </Text>
+              <Text className="text-xs text-textLight">
+                Bật thông báo để không bỏ lỡ lịch bảo trì và ưu đãi từ đối tác
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

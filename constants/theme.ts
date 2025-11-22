@@ -5,8 +5,19 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
+const tintColorLight = '#4BA8F5';
 const tintColorDark = '#fff';
+
+// EzCare Brand Colors - Figma Design System
+export const BrandColors = {
+  primary: '#39A3FF',      // Primary Color
+  secondary: '#B0D4F2',    // Secondary Color
+  background: '#FFF4E9',   // Background Color
+  highlight: '#FF9149',    // Highlight Color
+  textDark: '#666666',     // Text Color
+  textLight: '#999999',
+  white: '#FFFFFF',
+};
 
 export const Colors = {
   light: {
