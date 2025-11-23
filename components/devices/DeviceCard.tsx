@@ -72,9 +72,13 @@ export default function DeviceCard({ device, onPress }: DeviceCardProps) {
       <View className="flex-row">
         {/* Image với status badge */}
         <View className="mr-3">
-          <View className="w-24 h-24 rounded-xl overflow-hidden">
+          <View className="w-24 h-24 rounded-xl overflow-hidden bg-gray-50">
             {device.image ? (
-              <Image source={device.image} className="w-full h-full" />
+              <Image 
+                source={device.image} 
+                style={{ width: 96, height: 96 }}
+                resizeMode="cover"
+              />
             ) : (
               <View className="w-full h-full bg-gray-100 items-center justify-center">
                 <Text className="text-3xl">📦</Text>
