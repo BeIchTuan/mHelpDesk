@@ -918,6 +918,7 @@ export default function ProductDetailScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity 
+            onPress={() => router.push('/checkout')}
             style={{
               flex: 1,
               alignItems: 'center',
