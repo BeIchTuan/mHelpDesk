@@ -313,29 +313,37 @@ export default function ProductDetailScreen() {
 
         {/* Benefits Section */}
         <View style={{ 
-          backgroundColor: '#F5F9FC', 
+          backgroundColor: '#FFFAF6', 
           marginHorizontal: 16,
           borderRadius: 12,
           marginBottom: 16,
+          marginTop: 8,
+          paddingTop: 32,
+          padding: 16,
           borderWidth: 1,
-          borderColor: '#E8F4FC'
+          borderColor: '#E8E0D8',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3
         }}>
-          {/* Header */}
-          <View style={{ 
-            backgroundColor: '#39A3FF',
-            paddingVertical: 12,
-            paddingHorizontal: 16,
-            borderTopLeftRadius: 11,
-            borderTopRightRadius: 11
-          }}>
-            <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 14 }}>
-              ƯU ĐÃI XỊN CÙNG EZCARE
-            </Text>
-          </View>
+          {/* Tag ưu đãi - positioned at top */}
+          <Image 
+            source={require('@/assets/images/product_detail/Tag ưu đãi.png')}
+            style={{ 
+              position: 'absolute',
+              top: 4,
+              left: -8,
+              width: '58%',
+              height: 32
+            }}
+            resizeMode="contain"
+          />
 
           {/* Content */}
-          <View style={{ padding: 16 }}>
-            <View style={{ flexDirection: 'row', marginBottom: 6 }}>
+          <View style={{ marginTop: 8 }}>
+            <View style={{ flexDirection: 'row', marginBottom: 6, flexWrap: 'wrap' }}>
               <Text style={{ color: '#666666', fontSize: 13 }}>1. Giảm 10% cho đơn hàng đầu tiên khi </Text>
               <Text style={{ color: '#39A3FF', fontSize: 13, fontWeight: 'bold' }}>đăng ký tài khoản mới</Text>
             </View>
@@ -352,7 +360,7 @@ export default function ProductDetailScreen() {
             <Text style={{ color: '#666666', fontSize: 13, marginBottom: 6 }}>6. Hư gì đổi nấy 12 tháng tận nhà (miễn phí tháng đầu)</Text>
             
             <TouchableOpacity>
-              <Text style={{ color: '#39A3FF', fontWeight: 'bold', fontSize: 13, textDecorationLine: 'underline', marginTop: 4 }}>
+              <Text style={{ color: '#39A3FF', fontWeight: 'bold', fontSize: 13, marginTop: 4 }}>
                 Chính sách bảo hành
               </Text>
             </TouchableOpacity>
@@ -361,53 +369,62 @@ export default function ProductDetailScreen() {
 
         {/* Dealer Section */}
         <View style={{ 
-          backgroundColor: '#FFFFFF',
+          backgroundColor: '#FFFAF6',
           marginHorizontal: 16,
           borderRadius: 12,
-          padding: 16,
+          padding: 12,
           marginBottom: 16,
           borderWidth: 1,
-          borderColor: '#E0E0E0'
+          borderColor: '#E8E0D8',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3
         }}>
-          {/* Row 1: Avatar + Info + Button */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Avatar */}
             <Image 
               source={require('@/assets/images/product_detail/avatar_daily.png')}
-              style={{ width: 50, height: 50, borderRadius: 8, marginRight: 12 }}
+              style={{ width: 44, height: 44, borderRadius: 8, marginRight: 8 }}
               resizeMode="cover"
             />
+            
+            {/* Info + Stats */}
             <View style={{ flex: 1 }}>
-              <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#FF9149' }}>
+              <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#39A3FF' }}>
                 ĐẠI LÝ MINH MẪN
               </Text>
-              <Text style={{ fontSize: 11, color: '#999999' }}>
-                Online 5 phút trước
-              </Text>
-              <Text style={{ fontSize: 11, color: '#666666' }}>
-                TP. Hồ Chí Minh
-              </Text>
-            </View>
-            {/* Stats */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8 }}>
-              <View style={{ alignItems: 'center', paddingHorizontal: 8 }}>
-                <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#333' }}>210</Text>
-                <Text style={{ fontSize: 10, color: '#999' }}>Sản phẩm</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View>
+                  <Text style={{ fontSize: 9, color: '#999999' }}>Online 5 phút trước</Text>
+                  <Text style={{ fontSize: 9, color: '#666666' }}>TP. Hồ Chí Minh</Text>
+                </View>
+                {/* Stats - nằm cạnh Online/TPHCM */}
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 16 }}>
+                  <View style={{ width: 1, height: 24, backgroundColor: '#E0E0E0' }} />
+                  <View style={{ alignItems: 'center', paddingHorizontal: 8 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#39A3FF' }}>210</Text>
+                    <Text style={{ fontSize: 8, color: '#999' }}>Sản phẩm</Text>
+                  </View>
+                  <View style={{ width: 1, height: 24, backgroundColor: '#E0E0E0' }} />
+                  <View style={{ alignItems: 'center', paddingHorizontal: 8 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#39A3FF' }}>4.8</Text>
+                    <Text style={{ fontSize: 8, color: '#999' }}>Đánh giá</Text>
+                  </View>
+                </View>
               </View>
-              <View style={{ width: 1, height: 24, backgroundColor: '#E0E0E0' }} />
-              <View style={{ alignItems: 'center', paddingHorizontal: 8 }}>
-                <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#333' }}>4.8</Text>
-                <Text style={{ fontSize: 10, color: '#999' }}>Đánh giá</Text>
-              </View>
             </View>
+
             {/* View Button */}
             <TouchableOpacity style={{
               borderWidth: 1,
-              borderColor: '#39A3FF',
+              borderColor: '#FF9149',
               borderRadius: 6,
-              paddingVertical: 6,
+              paddingVertical: 5,
               paddingHorizontal: 10
             }}>
-              <Text style={{ color: '#39A3FF', fontWeight: 'bold', fontSize: 11 }}>Xem đại lý</Text>
+              <Text style={{ color: '#FF9149', fontWeight: 'bold', fontSize: 10 }}>Xem đại lý</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -416,47 +433,45 @@ export default function ProductDetailScreen() {
         <View style={{ 
           marginHorizontal: 16, 
           marginBottom: 16,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: '#FFFAF6',
           borderRadius: 12,
           borderWidth: 1,
-          borderColor: '#E0E0E0',
-          overflow: 'hidden'
+          borderColor: '#E8E0D8',
+          padding: 12,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3
         }}>
-          {/* Tabs */}
-          <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#E0E0E0' }}>
-            <TouchableOpacity style={{ 
-              flex: 1, 
-              paddingVertical: 14, 
-              alignItems: 'center',
-              borderBottomWidth: 2,
-              borderBottomColor: '#39A3FF'
-            }}>
-              <Text style={{ 
-                color: '#39A3FF', 
-                fontWeight: 'bold',
-                fontSize: 13
-              }}>
+          {/* Headers */}
+          <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <Text style={{ color: '#39A3FF', fontWeight: 'bold', fontSize: 12 }}>
                 THÔNG SỐ KỸ THUẬT
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ flex: 1, paddingVertical: 14, alignItems: 'center' }}>
-              <Text style={{ color: '#666666', fontSize: 13 }}>THÔNG TIN SẢN PHẨM</Text>
-            </TouchableOpacity>
+              <View style={{ width: 95, height: 2, backgroundColor: '#39A3FF', marginTop: 4 }} />
+            </View>
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <Text style={{ color: '#666666', fontSize: 12 }}>
+                THÔNG TIN SẢN PHẨM
+              </Text>
+            </View>
           </View>
 
-          {/* Specs Content - 2 columns */}
-          <View style={{ flexDirection: 'row', padding: 16 }}>
-            {/* Left - Image */}
-            <View style={{ flex: 1, paddingRight: 8 }}>
+          {/* Content - 2 columns */}
+          <View style={{ flexDirection: 'row' }}>
+            {/* Left - Image (59% theo Figma: 209/354) */}
+            <View style={{ width: '59%' }}>
               <Image 
                 source={require('@/assets/images/product_detail/information.png')}
-                style={{ width: '100%', height: 280 }}
+                style={{ width: 209, height: 157 }}
                 resizeMode="contain"
               />
             </View>
 
-            {/* Right - Specs Table */}
-            <View style={{ flex: 1, paddingLeft: 8 }}>
+            {/* Right - Specs Table (41%) */}
+            <View style={{ width: '41%' }}>
               {[
                 { label: 'Model:', value: 'K-75XR90' },
                 { label: 'Màu sắc:', value: 'Đen' },
@@ -469,24 +484,400 @@ export default function ProductDetailScreen() {
                 { label: 'Kích thước màn hình:', value: '75 inch' },
                 { label: 'Độ phân giải:', value: '4K (UHD)' },
               ].map((spec, index) => (
-                <View key={index} style={{ marginBottom: 8 }}>
-                  <Text style={{ color: '#999999', fontSize: 11 }}>{spec.label}</Text>
-                  <Text style={{ color: '#333333', fontSize: 13, fontWeight: '500' }}>{spec.value}</Text>
+                <View key={index} style={{ flexDirection: 'row', marginBottom: 5 }}>
+                  <Text style={{ color: '#999999', fontSize: 9, width: 55 }} numberOfLines={2}>{spec.label}</Text>
+                  <Text style={{ color: '#333333', fontSize: 9, fontWeight: '500', flex: 1 }}>{spec.value}</Text>
+                </View>
+              ))}
+
+              {/* View More Button */}
+              <TouchableOpacity style={{
+                backgroundColor: '#39A3FF',
+                borderRadius: 16,
+                paddingVertical: 8,
+                alignItems: 'center',
+                marginTop: 8
+              }}>
+                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 11 }}>Xem thêm thông tin</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {/* Review Section */}
+        <View style={{ 
+          marginHorizontal: 16, 
+          marginBottom: 16,
+          backgroundColor: '#FFFAF6',
+          borderRadius: 12,
+          borderWidth: 1,
+          borderColor: '#E8E0D8',
+          padding: 12,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3
+        }}>
+          {/* Header */}
+          <View style={{ marginBottom: 12 }}>
+            <Text style={{ color: '#39A3FF', fontWeight: 'bold', fontSize: 12 }}>
+              ĐÁNH GIÁ SẢN PHẨM
+            </Text>
+            <View style={{ width: 95, height: 2, backgroundColor: '#39A3FF', marginTop: 4 }} />
+          </View>
+
+          {/* Rating Overview */}
+          <View style={{ flexDirection: 'row', marginBottom: 16 }}>
+            {/* Left - Overall Score */}
+            <View style={{ width: '40%', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                <Image 
+                  source={require('@/assets/images/product_detail/star.png')}
+                  style={{ width: 16, height: 16, marginRight: 4 }}
+                />
+                <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#333' }}>5</Text>
+                <Text style={{ fontSize: 16, color: '#999' }}>/5</Text>
+              </View>
+              <Text style={{ fontSize: 11, color: '#666', marginTop: 4 }}>151 khách hài lòng</Text>
+              <Text style={{ fontSize: 10, color: '#999' }}>1 đánh giá</Text>
+            </View>
+
+            {/* Right - Rating Bars */}
+            <View style={{ width: '60%', paddingLeft: 16 }}>
+              {[
+                { stars: 5, percent: 100 },
+                { stars: 4, percent: 0 },
+                { stars: 3, percent: 0 },
+                { stars: 2, percent: 0 },
+                { stars: 1, percent: 0 },
+              ].map((item, index) => (
+                <View key={index} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                  <Text style={{ fontSize: 10, color: '#666', width: 14 }}>{item.stars}</Text>
+                  <Image 
+                    source={require('@/assets/images/product_detail/star.png')}
+                    style={{ width: 10, height: 10, marginRight: 6 }}
+                  />
+                  <View style={{ flex: 1, height: 8, backgroundColor: '#E0E0E0', borderRadius: 4, marginRight: 8 }}>
+                    <View style={{ 
+                      width: `${item.percent}%`, 
+                      height: '100%', 
+                      backgroundColor: '#39A3FF', 
+                      borderRadius: 4 
+                    }} />
+                  </View>
+                  <Text style={{ fontSize: 10, color: '#666', width: 30, textAlign: 'right' }}>{item.percent}%</Text>
                 </View>
               ))}
             </View>
           </View>
 
-          {/* View More Button */}
-          <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
-            <TouchableOpacity style={{
-              backgroundColor: '#39A3FF',
-              borderRadius: 24,
-              paddingVertical: 12,
-              alignItems: 'center'
-            }}>
-              <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Xem thêm thông tin</Text>
-            </TouchableOpacity>
+          {/* Divider */}
+          <View style={{ height: 1, backgroundColor: '#E8E0D8', marginBottom: 12 }} />
+
+          {/* Review Item */}
+          <View style={{ marginBottom: 12 }}>
+            {/* Reviewer Name */}
+            <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#333', marginBottom: 4 }}>Chị Ba Bie</Text>
+            
+            {/* Stars & Date */}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+              <View style={{ flexDirection: 'row', marginRight: 8 }}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Image 
+                    key={star}
+                    source={require('@/assets/images/product_detail/star.png')}
+                    style={{ width: 12, height: 12, marginRight: 2 }}
+                  />
+                ))}
+              </View>
+              <View style={{ width: 1, height: 12, backgroundColor: '#E0E0E0', marginRight: 8 }} />
+              <Text style={{ fontSize: 10, color: '#999' }}>18/08/2024 10:30</Text>
+            </View>
+
+            {/* Review Tags */}
+            <View style={{ marginBottom: 8 }}>
+              <Text style={{ fontSize: 11, color: '#666', marginBottom: 2 }}>
+                Chất lượng sản phẩm: <Text style={{ fontWeight: 'bold', color: '#333' }}>rất tốt</Text>
+              </Text>
+              <Text style={{ fontSize: 11, color: '#666' }}>
+                Đúng với mô tả: <Text style={{ fontWeight: 'bold', color: '#333' }}>hàng y như ảnh</Text>
+              </Text>
+            </View>
+
+            {/* Review Content */}
+            <Text style={{ fontSize: 11, color: '#333', lineHeight: 18 }}>
+              Nhân viên nói chuyện dễ thương nhiệt tình, nón xinh xĩu với cưng lắm luôn á mà còn giao hàng nhanh. Lần sau sẽ tiếp tục ủng hộ shop!
+            </Text>
+          </View>
+
+          {/* Write Review Button */}
+          <TouchableOpacity style={{
+            backgroundColor: '#39A3FF',
+            borderRadius: 20,
+            paddingVertical: 12,
+            alignItems: 'center'
+          }}>
+            <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 13 }}>Viết đánh giá</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Related Products Section */}
+        <View style={{ marginBottom: 16 }}>
+          {/* Header */}
+          <View style={{ 
+            paddingVertical: 12, 
+            paddingHorizontal: 16,
+            marginBottom: 12
+          }}>
+            <Text style={{ color: '#39A3FF', fontWeight: 'bold', fontSize: 16, textAlign: 'center' }}>
+              CÓ THỂ BẠN SẼ QUAN TÂM
+            </Text>
+          </View>
+
+          {/* Products Grid */}
+          <View style={{ paddingHorizontal: 16, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            {[
+              { 
+                id: '1', 
+                name: 'Máy giặt AQUA Inverter 11kg', 
+                currentPrice: '29.990.000', 
+                originalPrice: '34.490.000',
+                discount: '-24%',
+                rating: 4.8,
+                sold: 'Đã bán 2,4k',
+                image: require('@/assets/images/muasam/sanphambanchay/ảnh_máy giặt .png'),
+                hasNewTag: true
+              },
+              { 
+                id: '2', 
+                name: 'Máy rửa chén Sanaky 13 bộ', 
+                currentPrice: '12.650.000', 
+                originalPrice: '14.990.000',
+                discount: '-16%',
+                rating: 4.9,
+                sold: 'Đã bán 1,7k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_Máy rửa chén.png'),
+                hasNewTag: true
+              },
+              { 
+                id: '3', 
+                name: 'LG Inverter 335 lít', 
+                currentPrice: '10.640.000', 
+                originalPrice: '14.690.000',
+                discount: '-27%',
+                rating: 4.6,
+                sold: 'Đã bán 16k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_tủ lạnh.png'),
+                hasNewTag: false
+              },
+              { 
+                id: '4', 
+                name: 'Bravia 9 Tivi Mini LED Sony 75 inch', 
+                currentPrice: '75.650.000', 
+                originalPrice: '95.990.000',
+                discount: '-20%',
+                rating: 5,
+                sold: 'Đã bán 6k+',
+                image: require('@/assets/images/Ảnh_Tivi.png'),
+                hasNewTag: true
+              },
+              { 
+                id: '5', 
+                name: 'Máy nước nóng trực tiếp Ferroli', 
+                currentPrice: '1.800.000', 
+                originalPrice: '1.990.000',
+                discount: '-13%',
+                rating: 4.9,
+                sold: 'Đã bán 52k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_Máy nước nóng.png'),
+                hasNewTag: true
+              },
+              { 
+                id: '6', 
+                name: 'Tủ cấp đông Sanaky Inverter 305 lít', 
+                currentPrice: '8.490.000', 
+                originalPrice: '9.650.000',
+                discount: '-13%',
+                rating: 4.9,
+                sold: 'Đã bán 31k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_Tủ đông.png'),
+                hasNewTag: false
+              },
+              { 
+                id: '7', 
+                name: 'Máy giặt AQUA Inverter 11kg', 
+                currentPrice: '29.990.000', 
+                originalPrice: '34.490.000',
+                discount: '-24%',
+                rating: 4.8,
+                sold: 'Đã bán 2,4k',
+                image: require('@/assets/images/muasam/sanphambanchay/ảnh_máy giặt .png'),
+                hasNewTag: true
+              },
+              { 
+                id: '8', 
+                name: 'Máy rửa chén Sanaky 13 bộ', 
+                currentPrice: '12.650.000', 
+                originalPrice: '14.990.000',
+                discount: '-16%',
+                rating: 4.9,
+                sold: 'Đã bán 1,7k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_Máy rửa chén.png'),
+                hasNewTag: true
+              },
+              { 
+                id: '9', 
+                name: 'LG Inverter 335 lít', 
+                currentPrice: '10.640.000', 
+                originalPrice: '14.690.000',
+                discount: '-27%',
+                rating: 4.6,
+                sold: 'Đã bán 16k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_tủ lạnh.png'),
+                hasNewTag: false
+              },
+              { 
+                id: '10', 
+                name: 'Bravia 9 Tivi Mini LED Sony 75 inch', 
+                currentPrice: '75.650.000', 
+                originalPrice: '95.990.000',
+                discount: '-20%',
+                rating: 5,
+                sold: 'Đã bán 6k+',
+                image: require('@/assets/images/Ảnh_Tivi.png'),
+                hasNewTag: true
+              },
+              { 
+                id: '11', 
+                name: 'Máy nước nóng trực tiếp Ferroli', 
+                currentPrice: '1.800.000', 
+                originalPrice: '1.990.000',
+                discount: '-13%',
+                rating: 4.9,
+                sold: 'Đã bán 52k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_Máy nước nóng.png'),
+                hasNewTag: true
+              },
+              { 
+                id: '12', 
+                name: 'Tủ cấp đông Sanaky Inverter 305 lít', 
+                currentPrice: '8.490.000', 
+                originalPrice: '9.650.000',
+                discount: '-13%',
+                rating: 4.9,
+                sold: 'Đã bán 31k',
+                image: require('@/assets/images/muasam/sanphambanchay/Ảnh_Tủ đông.png'),
+                hasNewTag: false
+              },
+            ].map((product) => (
+              <TouchableOpacity
+                key={product.id}
+                style={{ 
+                  width: '48%', 
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: 16,
+                  padding: 12,
+                  marginBottom: 12,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 4,
+                  elevation: 3
+                }}
+                onPress={() => router.push({ pathname: '/product-detail', params: { id: product.id } })}
+              >
+                {/* Discount badge */}
+                <View style={{ 
+                  position: 'absolute', 
+                  top: 8, 
+                  left: 8, 
+                  zIndex: 10,
+                  backgroundColor: '#FFF0E6',
+                  borderRadius: 4,
+                  paddingHorizontal: 6,
+                  paddingVertical: 2
+                }}>
+                  <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#FF9149' }}>
+                    {product.discount}
+                  </Text>
+                </View>
+                
+                {/* Product Image */}
+                <View style={{ width: '100%', height: 100, alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                  <Image
+                    source={product.image}
+                    style={{ width: '100%', height: 100 }}
+                    resizeMode="contain"
+                  />
+                </View>
+                
+                {/* Product Name */}
+                <Text 
+                  numberOfLines={2}
+                  style={{ fontSize: 12, color: '#7EC8F5', lineHeight: 16, marginBottom: 4 }}
+                >
+                  {product.name}
+                </Text>
+                
+                {/* Price */}
+                <View style={{ marginBottom: 6 }}>
+                  <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#FF9149' }}>
+                    {product.currentPrice}đ
+                  </Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 2 }}>
+                    <Text style={{ fontSize: 10, color: '#999999', textDecorationLine: 'line-through', marginRight: 6 }}>
+                      {product.originalPrice}đ
+                    </Text>
+                    <Text style={{ fontSize: 10, fontWeight: '600', color: '#FF4444' }}>
+                      {product.discount}
+                    </Text>
+                  </View>
+                </View>
+                
+                {/* Tags */}
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4, marginBottom: 6 }}>
+                  {product.hasNewTag && (
+                    <View style={{ 
+                      borderWidth: 1, 
+                      borderColor: '#FF9149', 
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: 4,
+                      paddingHorizontal: 6,
+                      paddingVertical: 2
+                    }}>
+                      <Text style={{ fontSize: 9, fontWeight: '500', color: '#FF9149' }}>
+                        Mẫu mới
+                      </Text>
+                    </View>
+                  )}
+                  <View style={{ 
+                    backgroundColor: '#FF9149',
+                    borderRadius: 4,
+                    paddingHorizontal: 6,
+                    paddingVertical: 2
+                  }}>
+                    <Text style={{ fontSize: 9, fontWeight: '500', color: '#FFFFFF' }}>
+                      Trả trước 0đ
+                    </Text>
+                  </View>
+                </View>
+                
+                {/* Rating */}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image 
+                    source={require('@/assets/images/product_detail/star.png')}
+                    style={{ width: 12, height: 12, marginRight: 4 }}
+                  />
+                  <Text style={{ fontSize: 10, color: '#7EC8F5', fontWeight: '600' }}>
+                    {product.rating}
+                  </Text>
+                  <Text style={{ fontSize: 10, color: '#7EC8F5', marginLeft: 4 }} numberOfLines={1}>
+                    - {product.sold}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
 
@@ -516,15 +907,14 @@ export default function ProductDetailScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              borderWidth: 1,
-              borderColor: '#FF9149',
+              backgroundColor: 'rgba(176, 212, 242, 0.3)',
               borderRadius: 24,
               paddingVertical: 12,
               gap: 8
             }}
           >
-            <MaterialIcons name="shopping-cart" size={20} color="#FF9149" />
-            <Text style={{ color: '#FF9149', fontWeight: 'bold' }}>Thêm vào giỏ hàng</Text>
+            <MaterialIcons name="shopping-cart" size={20} color="#39A3FF" />
+            <Text style={{ color: '#39A3FF', fontWeight: 'bold' }}>Thêm vào giỏ hàng</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
