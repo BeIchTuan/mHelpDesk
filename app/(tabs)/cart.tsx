@@ -1,4 +1,5 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Dimensions,
@@ -289,6 +290,7 @@ export default function ShoppingScreen() {
                 key={cat.id}
                 className="items-center mr-4"
                 style={{ width: 70 }}
+                onPress={() => router.push('/category-products')}
               >
                 <View className="mb-2 items-center justify-center">
                   <Image 
@@ -452,7 +454,7 @@ export default function ShoppingScreen() {
                     style={{ backgroundColor: '#FF9149' }}
                   >
                     <Text className="text-xs font-medium" style={{ color: '#FFFFFF' }}>
-                      {product.paymentTag}
+                      Trả trước 0đ
                     </Text>
                   </View>
                 </View>

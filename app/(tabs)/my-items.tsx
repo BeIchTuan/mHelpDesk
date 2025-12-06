@@ -2,7 +2,7 @@ import RoomItem from '@/components/devices/RoomItem';
 import { mockRooms } from '@/data/mockDevices';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -66,12 +66,12 @@ export default function MyItemsScreen() {
             ĐỒ CỦA TÔI
           </Text>
           
-          {/* Search Bar - Cream color */}
-          <View className="flex-row items-center rounded-full px-4 py-2.5 shadow-sm" style={{ backgroundColor: '#FFF4E9' }}>
+          {/* Search Bar */}
+          <View className="flex-row items-center rounded-full px-4 shadow-sm" style={{ backgroundColor: '#FFFFFF', height: 41 }}>
             <MaterialIcons name="search" size={18} color="#999999" />
             <TextInput
               className="flex-1 ml-2 text-sm"
-              style={{ color: '#666666' }}
+              style={{ color: '#666666', height: 41 }}
               placeholder="Tìm kiếm"
               placeholderTextColor="#999999"
               value={searchQuery}
@@ -105,7 +105,8 @@ export default function MyItemsScreen() {
 
         {/* Add Device Button - ngoài container xanh */}
         <TouchableOpacity
-          className="bg-primary rounded-xl py-4 items-center mt-5 shadow-lg"
+          className="bg-primary rounded-xl items-center justify-center mt-5 shadow-lg"
+          style={{ height: 49 }}
           onPress={handleAddDevice}
           activeOpacity={0.8}
         >

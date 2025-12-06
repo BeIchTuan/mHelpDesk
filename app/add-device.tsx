@@ -1,15 +1,16 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import {
-    Image,
-    Modal,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  Modal,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -28,14 +29,13 @@ export default function AddDeviceScreen() {
   const [maintenanceIntervalLabel, setMaintenanceIntervalLabel] = useState('Chọn thời gian');
   const [showRoomPicker, setShowRoomPicker] = useState(false);
   const [showMaintenancePicker, setShowMaintenancePicker] = useState(false);
+  const [deviceStatus, setDeviceStatus] = useState<'stable' | 'maintenance' | 'broken' | ''>('');
 
   const rooms = [
     { label: 'Tại phòng khách', value: 'living-room' },
     { label: 'Tại phòng ngủ', value: 'bedroom' },
     { label: 'Tại nhà bếp', value: 'kitchen' },
     { label: 'Tại nhà tắm', value: 'bathroom' },
-    { label: 'Tại gara', value: 'garage' },
-    { label: 'Tại sân vườn', value: 'garden' },
   ];
 
   const maintenanceIntervals = [
@@ -72,6 +72,7 @@ export default function AddDeviceScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+      <StatusBar style="dark" backgroundColor="#FFFFFF" />
       {/* Header */}
       <View className="px-5 pt-2 pb-4 flex-row items-center bg-white">
         <TouchableOpacity 
@@ -92,7 +93,12 @@ export default function AddDeviceScreen() {
           />
         </TouchableOpacity>
         <Text className="flex-1 text-lg font-bold text-center" style={{ color: '#39A3FF' }}>THÊM VẬT DỤNG MỚI</Text>
-        <View style={{ width: 32 }} />
+        <TouchableOpacity onPress={() => router.replace('/(tabs)')}>
+          <Image
+            source={require('@/assets/images/home.png')}
+            style={{ width: 32, height: 32 }}
+          />
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -123,7 +129,7 @@ export default function AddDeviceScreen() {
           <TextInput
             className="bg-blue-50 rounded-xl px-4 py-3.5 text-base text-textDark border border-blue-200"
             placeholder="Nhập tên vật dụng"
-            placeholderTextColor="#B0B0B0"
+            placeholderTextColor="rgba(57, 163, 255, 0.7)"
             value={deviceName}
             onChangeText={setDeviceName}
           />
@@ -137,7 +143,7 @@ export default function AddDeviceScreen() {
           <TextInput
             className="bg-blue-50 rounded-xl px-4 py-3.5 text-base text-textDark border border-blue-200"
             placeholder="Nhập mã sản phẩm"
-            placeholderTextColor="#B0B0B0"
+            placeholderTextColor="rgba(57, 163, 255, 0.7)"
             value={productCode}
             onChangeText={setProductCode}
           />
@@ -151,26 +157,49 @@ export default function AddDeviceScreen() {
           <TextInput
             className="bg-blue-50 rounded-xl px-4 py-3.5 text-base text-textDark border border-blue-200"
             placeholder="Nhập loại máy"
-            placeholderTextColor="#B0B0B0"
+            placeholderTextColor="rgba(57, 163, 255, 0.7)"
             value={deviceType}
             onChangeText={setDeviceType}
           />
         </View>
 
-        {/* Khu vực với dropdown */}
+        {/* Khu vực với dropdown inline */}
         <View className="mb-4">
           <Text className="text-sm font-semibold mb-2" style={{ color: '#39A3FF' }}>
             Khu vực <Text style={{ color: '#FF0000' }}>*</Text>
           </Text>
           <TouchableOpacity
             className="bg-blue-50 rounded-xl px-4 py-3.5 border border-blue-200 flex-row justify-between items-center"
-            onPress={() => setShowRoomPicker(true)}
+            style={showRoomPicker ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : {}}
+            onPress={() => setShowRoomPicker(!showRoomPicker)}
           >
-            <Text style={{ fontSize: 15, color: !selectedRoom ? '#B0B0B0' : '#39A3FF' }}>
+            <Text style={{ fontSize: 15, color: !selectedRoom ? 'rgba(57, 163, 255, 0.7)' : '#39A3FF' }}>
               {selectedRoomLabel}
             </Text>
-            <MaterialIcons name="keyboard-arrow-down" size={24} color="#39A3FF" />
+            <MaterialIcons 
+              name={showRoomPicker ? "keyboard-arrow-up" : "keyboard-arrow-down"} 
+              size={24} 
+              color="#39A3FF" 
+            />
           </TouchableOpacity>
+          
+          {/* Dropdown list */}
+          {showRoomPicker && (
+            <View className="bg-blue-50 border border-blue-200 border-t-0 rounded-b-xl overflow-hidden">
+              {rooms.map((room, index) => (
+                <TouchableOpacity
+                  key={room.value}
+                  className="px-4 py-3"
+                  style={index < rooms.length - 1 ? { borderBottomWidth: 1, borderBottomColor: '#E0E7F1' } : {}}
+                  onPress={() => handleRoomSelect(room)}
+                >
+                  <Text style={{ fontSize: 15, color: selectedRoom === room.value ? '#39A3FF' : 'rgba(57, 163, 255, 0.7)', fontWeight: selectedRoom === room.value ? '600' : '400' }}>
+                    {room.label.replace('Tại ', '')}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
 
         {/* Mô tả */}
@@ -180,7 +209,7 @@ export default function AddDeviceScreen() {
             className="bg-blue-50 rounded-xl px-4 py-3.5 text-base text-textDark border border-blue-200"
             style={{ height: 100, textAlignVertical: 'top' }}
             placeholder="Gợi ý&#10;Dung tích ...&#10;Màu sắc ..."
-            placeholderTextColor="#B0B0B0"
+            placeholderTextColor="rgba(57, 163, 255, 0.7)"
             value={description}
             onChangeText={setDescription}
             multiline
@@ -194,52 +223,150 @@ export default function AddDeviceScreen() {
           <View className="flex-1" style={{ height: 1, backgroundColor: '#FF9149' }} />
         </View>
 
-        {/* Ngày mua */}
-        <View className="mb-4">
-          <Text className="text-sm font-semibold mb-2" style={{ color: '#39A3FF' }}>Ngày mua</Text>
+        {/* Ngày mua - Hạn bảo hành trên cùng 1 hàng */}
+        <View className="flex-row items-center mb-4">
           <TextInput
-            className="bg-blue-50 rounded-xl px-4 py-3.5 text-base text-textDark border border-blue-200"
+            className="text-center flex-1"
+            style={{
+              height: 40,
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: 'rgba(57, 163, 255, 0.7)',
+              backgroundColor: 'rgba(176, 212, 242, 0.3)',
+              fontSize: 14,
+            }}
             placeholder="Nhập ngày mua"
-            placeholderTextColor="#B0B0B0"
+            placeholderTextColor="rgba(57, 163, 255, 0.7)"
             value={purchaseDate}
             onChangeText={setPurchaseDate}
           />
-        </View>
-
-        {/* Hạn bảo hành */}
-        <View className="mb-4">
-          <Text className="text-sm font-semibold mb-2" style={{ color: '#39A3FF' }}>Hạn bảo hành</Text>
+          <Text style={{ marginHorizontal: 10, fontSize: 14, fontWeight: '800', color: 'rgba(57, 163, 255, 0.7)' }}>đến</Text>
           <TextInput
-            className="bg-blue-50 rounded-xl px-4 py-3.5 text-base text-textDark border border-blue-200"
+            className="text-center flex-1"
+            style={{
+              height: 40,
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: 'rgba(57, 163, 255, 0.7)',
+              backgroundColor: 'rgba(176, 212, 242, 0.3)',
+              fontSize: 14,
+            }}
             placeholder="Nhập hạn bảo hành"
-            placeholderTextColor="#B0B0B0"
+            placeholderTextColor="rgba(57, 163, 255, 0.7)"
             value={warrantyExpiry}
             onChangeText={setWarrantyExpiry}
           />
         </View>
 
-        {/* Thời gian kiểm tra định kỳ */}
-        <View className="mb-6">
-          <Text className="text-sm font-semibold mb-2" style={{ color: '#39A3FF' }}>Thời gian kiểm tra định kỳ <Text style={{ color: '#FF0000' }}>*</Text></Text>
+        {/* Thời gian kiểm tra định kỳ - inline dropdown */}
+        <View className="mb-4">
+          <Text style={{ color: '#39A3FF', fontSize: 14, fontWeight: '800', marginBottom: 8 }}>Thời gian kiểm tra định kỳ <Text style={{ color: '#FF0000' }}>*</Text></Text>
           <TouchableOpacity
-            className="bg-blue-50 rounded-xl px-4 py-3.5 border border-blue-200 flex-row justify-between items-center"
-            onPress={() => setShowMaintenancePicker(true)}
+            className="bg-white rounded-xl px-4 py-3.5 border border-blue-200 flex-row justify-between items-center"
+            style={showMaintenancePicker ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : {}}
+            onPress={() => setShowMaintenancePicker(!showMaintenancePicker)}
           >
-            <Text style={{ fontSize: 15, color: !maintenanceInterval ? '#B0B0B0' : '#39A3FF' }}>
+            <Text style={{ fontSize: 15, color: !maintenanceInterval ? 'rgba(57, 163, 255, 0.7)' : '#39A3FF' }}>
               {maintenanceIntervalLabel}
             </Text>
-            <MaterialIcons name="keyboard-arrow-down" size={24} color="#39A3FF" />
+            <MaterialIcons 
+              name={showMaintenancePicker ? "keyboard-arrow-up" : "keyboard-arrow-down"} 
+              size={24} 
+              color="#39A3FF" 
+            />
           </TouchableOpacity>
+          
+          {/* Dropdown list */}
+          {showMaintenancePicker && (
+            <View className="bg-white border border-blue-200 border-t-0 rounded-b-xl overflow-hidden">
+              {maintenanceIntervals.map((interval, index) => (
+                <TouchableOpacity
+                  key={interval.value}
+                  className="px-4 py-3"
+                  style={index < maintenanceIntervals.length - 1 ? { borderBottomWidth: 1, borderBottomColor: '#E0E7F1' } : {}}
+                  onPress={() => handleMaintenanceSelect(interval)}
+                >
+                  <Text style={{ fontSize: 15, color: maintenanceInterval === interval.value ? '#39A3FF' : 'rgba(57, 163, 255, 0.7)', fontWeight: maintenanceInterval === interval.value ? '600' : '400' }}>
+                    {interval.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
 
-        {/* Submit Button */}
-        <TouchableOpacity
-          className="bg-primary rounded-xl py-4 items-center mt-2 shadow-lg"
-          onPress={handleSubmit}
-          activeOpacity={0.8}
-        >
-          <Text className="text-base font-bold text-white">Thêm vật dụng</Text>
-        </TouchableOpacity>
+        {/* Tình trạng hoạt động hiện tại */}
+        <View className="mb-6">
+          <Text className="text-sm font-semibold mb-3" style={{ color: '#39A3FF' }}>Tình trạng hoạt động hiện tại <Text style={{ color: '#FF0000' }}>*</Text></Text>
+          <View className="flex-row items-center">
+            {/* Ổn định */}
+            <TouchableOpacity 
+              className="flex-row items-center mr-6"
+              onPress={() => setDeviceStatus('stable')}
+            >
+              <View 
+                className="w-5 h-5 rounded-full mr-2 items-center justify-center"
+                style={{ backgroundColor: 'rgba(176, 212, 242, 0.3)' }}
+              >
+                {deviceStatus === 'stable' && (
+                  <View className="w-2.5 h-2.5 rounded-full bg-primary" />
+                )}
+              </View>
+              <Text style={{ color: 'rgba(57, 163, 255, 0.7)', fontSize: 14 }}>Ổn định</Text>
+            </TouchableOpacity>
+
+            {/* Sắp bảo trì */}
+            <TouchableOpacity 
+              className="flex-row items-center mr-6"
+              onPress={() => setDeviceStatus('maintenance')}
+            >
+              <View 
+                className="w-5 h-5 rounded-full mr-2 items-center justify-center"
+                style={{ backgroundColor: 'rgba(176, 212, 242, 0.3)' }}
+              >
+                {deviceStatus === 'maintenance' && (
+                  <View className="w-2.5 h-2.5 rounded-full bg-primary" />
+                )}
+              </View>
+              <Text style={{ color: 'rgba(57, 163, 255, 0.7)', fontSize: 14 }}>Sắp bảo trì</Text>
+            </TouchableOpacity>
+
+            {/* Bị hỏng */}
+            <TouchableOpacity 
+              className="flex-row items-center"
+              onPress={() => setDeviceStatus('broken')}
+            >
+              <View 
+                className="w-5 h-5 rounded-full mr-2 items-center justify-center"
+                style={{ backgroundColor: 'rgba(176, 212, 242, 0.3)' }}
+              >
+                {deviceStatus === 'broken' && (
+                  <View className="w-2.5 h-2.5 rounded-full bg-primary" />
+                )}
+              </View>
+              <Text style={{ color: 'rgba(57, 163, 255, 0.7)', fontSize: 14 }}>Bị hỏng</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Buttons: Hủy và Lưu */}
+        <View className="flex-row mt-4 mb-6">
+          <TouchableOpacity
+            className="flex-1 rounded-full py-3.5 items-center mr-3 border"
+            style={{ borderColor: '#B0D4F2', backgroundColor: '#FFFFFF' }}
+            onPress={() => router.back()}
+            activeOpacity={0.8}
+          >
+            <Text className="text-base font-semibold" style={{ color: '#666666' }}>Hủy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="flex-1 bg-primary rounded-full py-3.5 items-center"
+            onPress={handleSubmit}
+            activeOpacity={0.8}
+          >
+            <Text className="text-base font-semibold text-white">Lưu</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
 
       {/* Room Picker Modal */}
