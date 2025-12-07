@@ -6,11 +6,11 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import {
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
+    Image,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -111,25 +111,67 @@ export default function DeviceDetailScreen() {
         {/* Device Info Card */}
         <View style={sectionStyle}>
           <View className="flex-row">
-            <View className="w-24 h-28 rounded-xl overflow-hidden bg-gray-50">
-              {device.image ? (
+            <View className="w-24 h-28 rounded-xl overflow-hidden bg-gray-50" style={{ position: 'relative' }}>
+              {/* Edit button ở góc trên phải */}
+              <TouchableOpacity 
+                style={{
+                  position: 'absolute',
+                  top: 4,
+                  right: 4,
+                  zIndex: 10,
+                  width: 24,
+                  height: 24,
+                  borderRadius: 4,
+                  backgroundColor: '#FFFFFF',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 2,
+                  elevation: 2,
+                }}
+              >
                 <Image 
-                  source={device.image} 
-                  style={{ width: 96, height: 112 }}
-                  resizeMode="cover"
+                  source={require('@/assets/images/edit.png')}
+                  style={{ width: 16, height: 16 }}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+
+              {/* Hình tủ lạnh */}
+              <Image 
+                source={require('@/assets/images/tu-lanh.png')} 
+                style={{ width: 96, height: 112 }}
+                resizeMode="cover"
+              />
+
+              {/* Status badge - dùng hình Sắp bảo trì.png hoặc Ổn định.png */}
+              {hasUpcomingMaintenance ? (
+                <Image 
+                  source={require('@/assets/images/Sắp bảo trì.png')}
+                  style={{
+                    position: 'absolute',
+                    bottom: -12,
+                    left: 14,
+                    width: 69,
+                    height: 25,
+                  }}
+                  resizeMode="contain"
                 />
               ) : (
-                <View className="w-full h-full bg-gray-100 items-center justify-center">
-                  <Text className="text-4xl">📦</Text>
-                </View>
+                <Image 
+                  source={require('@/assets/images/Ổn định.png')}
+                  style={{
+                    position: 'absolute',
+                    bottom: -12,
+                    left: 14,
+                    width: 69,
+                    height: 25,
+                  }}
+                  resizeMode="contain"
+                />
               )}
-              {/* Status badge */}
-              <View 
-                className="absolute bottom-1 left-1 right-1 py-1 rounded-full items-center"
-                style={{ backgroundColor: 'rgba(249, 168, 37, 0.9)' }}
-              >
-                <Text className="text-xs font-semibold text-white">Sắp bảo trì</Text>
-              </View>
             </View>
 
             <View className="flex-1 ml-3">
@@ -227,6 +269,7 @@ export default function DeviceDetailScreen() {
             <TouchableOpacity 
               key={part.id}
               className="flex-row items-center justify-between py-2"
+              onPress={() => router.push('/part-replacement' as any)}
             >
               <View className="flex-row items-center">
                 <Image

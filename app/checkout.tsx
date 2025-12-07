@@ -63,9 +63,8 @@ export default function CheckoutScreen() {
       Alert.alert('Thông báo', 'Vui lòng đồng ý với điều khoản và chính sách mua hàng');
       return;
     }
-    Alert.alert('Thành công', 'Đặt hàng thành công!', [
-      { text: 'OK', onPress: () => router.push('/(tabs)/cart') }
-    ]);
+    // Navigate đến màn hình đặt hàng thành công
+    router.replace('/order-success');
   };
 
   return (
@@ -77,7 +76,13 @@ export default function CheckoutScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity 
-            onPress={() => router.back()}
+            onPress={() => {
+              if (router.canGoBack()) {
+                router.back();
+              } else {
+                router.replace('/(tabs)/cart');
+              }
+            }}
             style={styles.headerBackBtn}
           >
             <View style={styles.headerBackCircle}>

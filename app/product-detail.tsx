@@ -3,14 +3,14 @@ import { router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useRef, useState } from 'react';
 import {
-  Dimensions,
-  FlatList,
-  Image,
-  ImageBackground,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View
+    Dimensions,
+    FlatList,
+    Image,
+    ImageBackground,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -54,6 +54,7 @@ export default function ProductDetailScreen() {
   const [cartCount, setCartCount] = useState(7);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedMainImage, setSelectedMainImage] = useState(productData.mainImage);
+  const [activeSpecTab, setActiveSpecTab] = useState<'specs' | 'info'>('specs');
   const thumbnailRef = useRef<FlatList>(null);
 
   const scrollToIndex = (direction: 'left' | 'right') => {
@@ -444,64 +445,111 @@ export default function ProductDetailScreen() {
           shadowRadius: 4,
           elevation: 3
         }}>
-          {/* Headers */}
-          <View style={{ flexDirection: 'row', marginBottom: 8 }}>
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ color: '#39A3FF', fontWeight: 'bold', fontSize: 12 }}>
+          {/* Tab Headers */}
+          <View style={{ flexDirection: 'row', marginBottom: 12 }}>
+            <TouchableOpacity 
+              style={{ flex: 1, alignItems: 'center' }}
+              onPress={() => setActiveSpecTab('specs')}
+            >
+              <Text style={{ 
+                color: activeSpecTab === 'specs' ? '#39A3FF' : '#666666', 
+                fontWeight: activeSpecTab === 'specs' ? 'bold' : 'normal', 
+                fontSize: 12 
+              }}>
                 THÔNG SỐ KỸ THUẬT
               </Text>
-              <View style={{ width: 95, height: 2, backgroundColor: '#39A3FF', marginTop: 4 }} />
-            </View>
-            <View style={{ flex: 1, alignItems: 'center' }}>
-              <Text style={{ color: '#666666', fontSize: 12 }}>
+              {activeSpecTab === 'specs' && (
+                <View style={{ width: 95, height: 2, backgroundColor: '#39A3FF', marginTop: 4 }} />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={{ flex: 1, alignItems: 'center' }}
+              onPress={() => setActiveSpecTab('info')}
+            >
+              <Text style={{ 
+                color: activeSpecTab === 'info' ? '#39A3FF' : '#666666', 
+                fontWeight: activeSpecTab === 'info' ? 'bold' : 'normal', 
+                fontSize: 12 
+              }}>
                 THÔNG TIN SẢN PHẨM
               </Text>
-            </View>
+              {activeSpecTab === 'info' && (
+                <View style={{ width: 110, height: 2, backgroundColor: '#39A3FF', marginTop: 4 }} />
+              )}
+            </TouchableOpacity>
           </View>
 
-          {/* Content - 2 columns */}
-          <View style={{ flexDirection: 'row' }}>
-            {/* Left - Image (59% theo Figma: 209/354) */}
-            <View style={{ width: '59%' }}>
-              <Image 
-                source={require('@/assets/images/product_detail/information.png')}
-                style={{ width: 209, height: 157 }}
-                resizeMode="contain"
-              />
-            </View>
+          {/* Tab Content */}
+          {activeSpecTab === 'specs' ? (
+            /* THÔNG SỐ KỸ THUẬT Content */
+            <View style={{ flexDirection: 'row' }}>
+              {/* Left - Image (59% theo Figma: 209/354) */}
+              <View style={{ width: '59%' }}>
+                <Image 
+                  source={require('@/assets/images/product_detail/information.png')}
+                  style={{ width: 209, height: 157 }}
+                  resizeMode="contain"
+                />
+              </View>
 
-            {/* Right - Specs Table (41%) */}
-            <View style={{ width: '41%' }}>
+              {/* Right - Specs Table (41%) */}
+              <View style={{ width: '41%' }}>
+                {[
+                  { label: 'Model:', value: 'K-75XR90' },
+                  { label: 'Màu sắc:', value: 'Đen' },
+                  { label: 'Nhà sản xuất:', value: 'Sony' },
+                  { label: 'Xuất xứ sản phẩm:', value: 'Malaysia' },
+                  { label: 'Năm ra mắt:', value: '2024' },
+                  { label: 'Thời gian bảo hành:', value: '24 tháng' },
+                  { label: 'Địa điểm bảo hành:', value: 'Đại lý Minh Mẫn' },
+                  { label: 'Loại Tivi:', value: 'Tivi Mini LED' },
+                  { label: 'Kích thước màn hình:', value: '75 inch' },
+                  { label: 'Độ phân giải:', value: '4K (UHD)' },
+                ].map((spec, index) => (
+                  <View key={index} style={{ flexDirection: 'row', marginBottom: 5 }}>
+                    <Text style={{ color: '#999999', fontSize: 9, width: 55 }} numberOfLines={2}>{spec.label}</Text>
+                    <Text style={{ color: '#333333', fontSize: 9, fontWeight: '500', flex: 1 }}>{spec.value}</Text>
+                  </View>
+                ))}
+
+                {/* View More Button */}
+                <TouchableOpacity style={{
+                  backgroundColor: '#39A3FF',
+                  borderRadius: 16,
+                  paddingVertical: 8,
+                  alignItems: 'center',
+                  marginTop: 8
+                }}>
+                  <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 11 }}>Xem thêm thông tin</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            /* THÔNG TIN SẢN PHẨM Content */
+            <View style={{ paddingHorizontal: 4 }}>
               {[
-                { label: 'Model:', value: 'K-75XR90' },
-                { label: 'Màu sắc:', value: 'Đen' },
-                { label: 'Nhà sản xuất:', value: 'Sony' },
-                { label: 'Xuất xứ sản phẩm:', value: 'Malaysia' },
-                { label: 'Năm ra mắt:', value: '2024' },
-                { label: 'Thời gian bảo hành:', value: '24 tháng' },
-                { label: 'Địa điểm bảo hành:', value: 'Đại lý Minh Mẫn' },
-                { label: 'Loại Tivi:', value: 'Tivi Mini LED' },
-                { label: 'Kích thước màn hình:', value: '75 inch' },
-                { label: 'Độ phân giải:', value: '4K (UHD)' },
-              ].map((spec, index) => (
-                <View key={index} style={{ flexDirection: 'row', marginBottom: 5 }}>
-                  <Text style={{ color: '#999999', fontSize: 9, width: 55 }} numberOfLines={2}>{spec.label}</Text>
-                  <Text style={{ color: '#333333', fontSize: 9, fontWeight: '500', flex: 1 }}>{spec.value}</Text>
+                'Tivi Sony với màn hình Mini LED(QLED) 4K có mật độ đèn LED nhiều hơn',
+                'Công nghệ High Peak Luminance tăng cường độ sáng mang đến hình ảnh sống động',
+                'Kiểm soát đèn nền XR Backlight Master Drive và XR Contrast Booster 30 cho độ sáng vượt trội',
+                'Công nghệ X-Anti Reflection (giảm phản chiếu) cùng X-Wide Angle màn nhìn mọi góc nhìn',
+                'Công nghệ chuyển động XR Motion Clarity đảm bảo hình ảnh luôn mượt mà, sắc nét',
+                'Công nghệ XR Triluminos Pro tái tạo hàng tỷ màu sắc cho khung hình rực rỡ và tự nhiên',
+                'Công suất loa 70W, 2.2.2 kênh cùng loa Beam Tweeter mang đến trải nghiệm âm thanh điện ảnh',
+                'Công nghệ 3D Surround Upscaling công nghệ tự động nâng cấp lên âm thanh vòm 3D',
+                'Công nghệ Voice zoom 3 giúp tăng cường âm lượng giọng nói/hội thoại trong các đoạn phim',
+                'Cho phép tùy chọn âm thanh theo nội dung xem phim, ca nhạc, bóng đá,... vô cùng tiện lợi',
+                'Hỗ trợ Dolby Atmos, DTS Digital Surround, S-Master Digital Amplifier, S-Force Front Surround',
+                'Acoustic Center Sync giúp TV trở thành loa trung tâm khi kết hợp cùng loa thanh Sony',
+                'Hệ điều hành Google TV quen thuộc có giao diện cực đơn giản, dễ sử dụng',
+                'Tìm kiếm và điều khiển TV bằng cách nói "OK google + câu lệnh" trực tiếp vào TV hoặc qua remote',
+              ].map((info, index) => (
+                <View key={index} style={{ flexDirection: 'row', marginBottom: 8, paddingRight: 8 }}>
+                  <Text style={{ color: '#666666', fontSize: 12, marginRight: 8 }}>•</Text>
+                  <Text style={{ color: '#666666', fontSize: 12, flex: 1, lineHeight: 18 }}>{info}</Text>
                 </View>
               ))}
-
-              {/* View More Button */}
-              <TouchableOpacity style={{
-                backgroundColor: '#39A3FF',
-                borderRadius: 16,
-                paddingVertical: 8,
-                alignItems: 'center',
-                marginTop: 8
-              }}>
-                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 11 }}>Xem thêm thông tin</Text>
-              </TouchableOpacity>
             </View>
-          </View>
+          )}
         </View>
 
         {/* Review Section */}
