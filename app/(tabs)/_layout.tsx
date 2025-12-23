@@ -1,5 +1,4 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
 import { Image } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
@@ -32,7 +31,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Trang chủ',
+          title: 'Sổ tay Ezcare',
           tabBarIcon: ({ focused }) => (
             <Image
               source={focused
