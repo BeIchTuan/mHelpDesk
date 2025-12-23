@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { ChevronDown } from 'lucide-react-native';
 import { useState } from 'react';
 import {
@@ -87,6 +88,7 @@ const MAINTENANCE_ITEMS: MaintenanceItem[] = [
 ];
 
 export default function HomeScreen() {
+  const router = useRouter();
   const [selectedMonth, setSelectedMonth] = useState('Tháng 01');
   const [activeFilter, setActiveFilter] = useState<'all' | MaintenanceStatus>('all');
   const [showMonthDropdown, setShowMonthDropdown] = useState(false);
@@ -148,13 +150,17 @@ export default function HomeScreen() {
   };
 
   const MaintenanceItemCard = ({ item }: { item: MaintenanceItem }) => (
-    <TouchableOpacity className="bg-white rounded-2xl p-4 mb-4 mx-4" 
+    <TouchableOpacity 
+      className="bg-white rounded-2xl p-4 mb-4 mx-4 relative" 
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
         shadowRadius: 4,
         elevation: 2,
+      }}
+      onPress={() => {
+        router.push(`/repair-detail?maintenanceId=${item.id}`);
       }}
     >
       <View className="flex-row mb-3">
