@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 // --- Color Constants ---
 const COLORS = {
   primary: '#39A3FF',
-  secondary: '#B0D4F2', 
+  secondary: '#B0D4F2',
   background: '#FFFFFF',
   highlight: '#FF9149',
   textDark: '#333333',
@@ -35,6 +35,8 @@ interface MaintenanceItem {
   description: string;
   price: string;
   status: MaintenanceStatus;
+  hasAssignedStore?: boolean;
+  assignedStoreId?: string;
 }
 
 // --- Images ---
@@ -57,6 +59,7 @@ const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     description: 'Bảo dưỡng định kỳ lần 2, thay linh kiện Số nóng lạnh',
     price: '1.000.000đ',
     status: 'unscheduled',
+    hasAssignedStore: false,
   },
   {
     id: '2',
@@ -66,6 +69,8 @@ const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     description: 'Bảo dưỡng định kỳ lần 2 kiểm về sinh máy',
     price: '200.000đ',
     status: 'unscheduled',
+    hasAssignedStore: true,
+    assignedStoreId: '1',
   },
   {
     id: '3',
@@ -75,6 +80,7 @@ const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     description: 'Bảo dưỡng định kỳ lần 1 kiểm về sinh máy',
     price: '100.000đ',
     status: 'scheduled',
+    hasAssignedStore: false,
   },
   {
     id: '4',
@@ -84,6 +90,7 @@ const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     description: 'Bảo dưỡng định kỳ lần 1 kiểm về sinh máy',
     price: '200.000đ',
     status: 'completed',
+    hasAssignedStore: false,
   },
 ];
 
@@ -95,7 +102,7 @@ export default function HomeScreen() {
 
   const months = [
     'Tháng 01', 'Tháng 02', 'Tháng 03', 'Tháng 04',
-    'Tháng 05', 'Tháng 06', 'Tháng 07', 'Tháng 08', 
+    'Tháng 05', 'Tháng 06', 'Tháng 07', 'Tháng 08',
     'Tháng 09', 'Tháng 10', 'Tháng 11', 'Tháng 12'
   ];
 
@@ -107,7 +114,7 @@ export default function HomeScreen() {
   const getStatusColor = (status: MaintenanceStatus) => {
     switch (status) {
       case 'unscheduled': return '#FF9149';
-      case 'scheduled': return '#FFA726'; 
+      case 'scheduled': return '#FFA726';
       case 'completed': return '#4CAF50';
       default: return '#FF9149';
     }
@@ -128,13 +135,11 @@ export default function HomeScreen() {
   const FilterTab = ({ label, isActive, onPress }: { label: string; isActive: boolean; onPress: () => void }) => (
     <TouchableOpacity
       onPress={onPress}
-      className={`px-5 py-3 rounded-xl mr-3 ${
-        isActive ? 'bg-[#39A3FF]' : 'bg-[#E8E8E8]'
-      }`}
+      className={`px-5 py-3 rounded-xl mr-3 ${isActive ? 'bg-[#39A3FF]' : 'bg-[#E8E8E8]'
+        }`}
     >
-      <Text className={`font-semibold text-base ${
-        isActive ? 'text-white' : 'text-[#666666]'
-      }`}>
+      <Text className={`font-semibold text-base ${isActive ? 'text-white' : 'text-[#666666]'
+        }`}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -150,8 +155,8 @@ export default function HomeScreen() {
   };
 
   const MaintenanceItemCard = ({ item }: { item: MaintenanceItem }) => (
-    <TouchableOpacity 
-      className="bg-white rounded-2xl p-4 mb-4 mx-4 relative" 
+    <TouchableOpacity
+      className="bg-white rounded-2xl p-4 mb-4 mx-4 relative"
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -171,13 +176,13 @@ export default function HomeScreen() {
             <Text className="text-sm text-[#666666] mt-1">{item.month}</Text>
           </View>
           {/* Status Icon ở dưới section con ngày tháng */}
-          <Image 
+          <Image
             source={getStatusIcon(item.status)}
             className="absolute -bottom-1 right-2 w-4 h-4"
             resizeMode="contain"
           />
         </View>
-        
+
         <View className="flex-1 mr-4">
           <Text className="font-bold text-lg text-[#39A3FF] mb-1">{item.title}</Text>
           <Text className="text-base text-[#666666] leading-5">{item.description}</Text>
@@ -193,7 +198,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-[#EDF7FF]" edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      
+
       {/* Header */}
       <View className="px-4 pt-4 pb-3">
         <Text className="text-2xl font-bold text-[#39A3FF] text-center uppercase tracking-wider">
@@ -204,7 +209,7 @@ export default function HomeScreen() {
       {/* Statistics Card */}
       <View className="mx-4 mt-4 mb-4 relative">
         <View className="rounded-2xl overflow-hidden">
-          <Image 
+          <Image
             source={IMAGES.background}
             className="absolute inset-0 w-full h-full"
             resizeMode="cover"
@@ -212,7 +217,7 @@ export default function HomeScreen() {
           <View className="p-4" style={{ backgroundColor: 'rgba(57, 163, 255, 0.9)' }}>
             {/* Month Selector */}
             <View className="items-center mb-4">
-              <TouchableOpacity 
+              <TouchableOpacity
                 className="flex-row items-center bg-white rounded-xl py-2.5 px-10"
                 onPress={() => setShowMonthDropdown(!showMonthDropdown)}
               >
@@ -220,15 +225,15 @@ export default function HomeScreen() {
                 <ChevronDown size={14} color="#FF9149" />
               </TouchableOpacity>
             </View>
-            
+
             {/* Stats Row */}
             <View className="flex-row">
-              <StatCard 
+              <StatCard
                 icon={IMAGES.money}
                 value="1,500,000đ"
                 label="Chi phí sửa chữa"
               />
-              <StatCard 
+              <StatCard
                 icon={IMAGES.quantity}
                 value="04"
                 label="Số vật dụng cần sửa"
@@ -236,10 +241,10 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-        
+
         {/* Dropdown Menu - positioned outside overflow-hidden container */}
         {showMonthDropdown && (
-          <View 
+          <View
             className="absolute bg-white rounded-xl min-w-[120px]"
             style={{
               top: 64,
@@ -262,9 +267,8 @@ export default function HomeScreen() {
                   setShowMonthDropdown(false);
                 }}
               >
-                <Text className={`text-sm font-semibold text-center ${
-                  month === selectedMonth ? 'text-[#FF9149]' : 'text-[#666666]'
-                }`}>
+                <Text className={`text-sm font-semibold text-center ${month === selectedMonth ? 'text-[#FF9149]' : 'text-[#666666]'
+                  }`}>
                   {month}
                 </Text>
               </TouchableOpacity>
@@ -286,7 +290,7 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
-            <FilterTab 
+            <FilterTab
               label={item.label}
               isActive={activeFilter === item.key}
               onPress={() => setActiveFilter(item.key as any)}
