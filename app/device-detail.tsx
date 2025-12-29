@@ -6,11 +6,11 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import {
-    Image,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -19,7 +19,7 @@ export default function DeviceDetailScreen() {
   const { deviceId } = useLocalSearchParams<{ deviceId: string }>();
   const [showRepairHistory, setShowRepairHistory] = useState(false);
   const [showDocuments, setShowDocuments] = useState(false);
-  
+
   const device = mockDevices.find(d => d.id === deviceId);
 
   // Mock repair history data
@@ -78,7 +78,7 @@ export default function DeviceDetailScreen() {
       <StatusBar style="dark" backgroundColor="#FFFFFF" />
       {/* Header */}
       <View className="bg-white px-5 pt-2 pb-4 flex-row items-center">
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => {
             if (router.canGoBack()) {
               router.back();
@@ -111,70 +111,75 @@ export default function DeviceDetailScreen() {
         {/* Device Info Card */}
         <View style={sectionStyle}>
           <View className="flex-row">
-            <View className="w-24 h-28 rounded-xl overflow-hidden bg-gray-50" style={{ position: 'relative' }}>
-              {/* Edit button ở góc trên phải */}
-              <TouchableOpacity 
-                style={{
-                  position: 'absolute',
-                  top: 4,
-                  right: 4,
-                  zIndex: 10,
-                  width: 24,
-                  height: 24,
-                  borderRadius: 4,
-                  backgroundColor: '#FFFFFF',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 2,
-                  elevation: 2,
-                }}
-              >
-                <Image 
-                  source={require('@/assets/images/edit.png')}
-                  style={{ width: 16, height: 16 }}
-                  resizeMode="contain"
+            {/* Container cho hình và badge - không dùng overflow hidden */}
+            <View style={{ width: 96, marginRight: 12, marginBottom: 8 }}>
+              <View className="relative" style={{ width: 96, height: 112 }}>
+                {/* Edit button ở góc trên phải */}
+                <TouchableOpacity
+                  style={{
+                    position: 'absolute',
+                    top: 4,
+                    right: 4,
+                    zIndex: 10,
+                    width: 24,
+                    height: 24,
+                    borderRadius: 4,
+                    backgroundColor: '#FFFFFF',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 2,
+                    elevation: 2,
+                  }}
+                >
+                  <Image
+                    source={require('@/assets/images/edit.png')}
+                    style={{ width: 16, height: 16 }}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+
+                {/* Hình tủ lạnh */}
+                <Image
+                  source={require('@/assets/images/tu-lanh.png')}
+                  style={{ width: 96, height: 112, borderRadius: 12 }}
+                  resizeMode="cover"
                 />
-              </TouchableOpacity>
+              </View>
 
-              {/* Hình tủ lạnh */}
-              <Image 
-                source={require('@/assets/images/tu-lanh.png')} 
-                style={{ width: 96, height: 112 }}
-                resizeMode="cover"
-              />
-
-              {/* Status badge - dùng hình Sắp bảo trì.png hoặc Ổn định.png */}
+              {/* Status badge - nằm ngoài View hình để không bị overflow hidden */}
               {hasUpcomingMaintenance ? (
-                <Image 
+                <Image
                   source={require('@/assets/images/Sắp bảo trì.png')}
                   style={{
                     position: 'absolute',
-                    bottom: -12,
+                    bottom: -8,
                     left: 14,
                     width: 69,
                     height: 25,
+                    zIndex: 20,
                   }}
                   resizeMode="contain"
                 />
               ) : (
-                <Image 
+                <Image
                   source={require('@/assets/images/Ổn định.png')}
                   style={{
                     position: 'absolute',
-                    bottom: -12,
+                    bottom: -8,
                     left: 14,
                     width: 69,
                     height: 25,
+                    zIndex: 20,
                   }}
                   resizeMode="contain"
                 />
               )}
             </View>
 
-            <View className="flex-1 ml-3">
+            <View className="flex-1">
               <View className="flex-row items-start mb-1">
                 <IconSymbol name="chevron.right" size={16} color="#39A3FF" style={{ marginTop: 3 }} />
                 <Text className="text-base font-bold text-primary ml-1">{device.name}</Text>
@@ -200,12 +205,12 @@ export default function DeviceDetailScreen() {
         {hasUpcomingMaintenance && (
           <View style={sectionStyle}>
             <Text className="text-base font-bold text-primary mb-4">THÔNG TIN KIỂM TRA ĐỊNH KỲ</Text>
-            
+
             {/* Chevron Stepper */}
             <View className="mb-4">
-              <ChevronStepper 
-                totalSteps={6} 
-                currentStep={maintenanceSchedule.filter(m => m.status === 'done').length || 2} 
+              <ChevronStepper
+                totalSteps={6}
+                currentStep={maintenanceSchedule.filter(m => m.status === 'done').length || 2}
               />
             </View>
 
@@ -249,9 +254,10 @@ export default function DeviceDetailScreen() {
               </View>
             )}
 
-            <TouchableOpacity 
+            <TouchableOpacity
               className="bg-primary rounded-full py-3 items-center mb-3 self-center"
               style={{ width: 180 }}
+              onPress={() => router.push(`/book-service?deviceId=${device.id}`)}
             >
               <Text className="text-sm font-bold text-white">Đặt dịch vụ</Text>
             </TouchableOpacity>
@@ -266,7 +272,7 @@ export default function DeviceDetailScreen() {
         <View style={sectionStyle}>
           <Text className="text-base font-bold text-primary mb-3">NHẮC NHỞ THAY THẾ LINH KIỆN</Text>
           {partsReminders.map((part) => (
-            <TouchableOpacity 
+            <TouchableOpacity
               key={part.id}
               className="flex-row items-center justify-between py-2"
               onPress={() => router.push('/part-replacement' as any)}
@@ -285,22 +291,22 @@ export default function DeviceDetailScreen() {
 
         {/* Repair History */}
         <View style={sectionStyle}>
-          <TouchableOpacity 
+          <TouchableOpacity
             className="flex-row justify-between items-center"
             onPress={() => setShowRepairHistory(!showRepairHistory)}
           >
             <Text className="text-base font-bold text-primary">LỊCH SỬ SỬA CHỮA</Text>
-            <MaterialIcons 
-              name={showRepairHistory ? "remove" : "add"} 
-              size={24} 
-              color="#39A3FF" 
+            <MaterialIcons
+              name={showRepairHistory ? "remove" : "add"}
+              size={24}
+              color="#39A3FF"
             />
           </TouchableOpacity>
-          
+
           {showRepairHistory && (
             <View className="mt-3" style={{ paddingHorizontal: 8 }}>
               {repairHistory.map((repair, index) => (
-                <View 
+                <View
                   key={repair.id}
                   className="py-3"
                   style={index < repairHistory.length - 1 ? { borderBottomWidth: 1, borderBottomColor: '#E0E0E0' } : {}}
@@ -325,21 +331,21 @@ export default function DeviceDetailScreen() {
 
         {/* Documents */}
         <View style={sectionStyle}>
-          <TouchableOpacity 
+          <TouchableOpacity
             className="flex-row justify-between items-center"
             onPress={() => setShowDocuments(!showDocuments)}
           >
             <Text className="text-base font-bold text-primary">TẢI TÀI LIỆU HỮU ÍCH</Text>
-            <MaterialIcons 
-              name={showDocuments ? "remove" : "add"} 
-              size={24} 
-              color="#39A3FF" 
+            <MaterialIcons
+              name={showDocuments ? "remove" : "add"}
+              size={24}
+              color="#39A3FF"
             />
           </TouchableOpacity>
-          
+
           {showDocuments && (
             <View className="mt-4">
-              <TouchableOpacity 
+              <TouchableOpacity
                 className="flex-row items-center justify-center py-3 rounded-full"
                 style={{ backgroundColor: '#39A3FF' }}
               >

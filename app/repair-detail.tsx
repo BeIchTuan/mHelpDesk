@@ -55,6 +55,9 @@ const MAINTENANCE_DETAILS: Record<string, {
   status: 'unscheduled' | 'scheduled' | 'completed';
   hasAssignedStore: boolean;
   assignedStoreId?: string;
+  // Thông tin đã đặt lịch sẵn (cho case status = 'scheduled')
+  bookedTimeSlot?: string;
+  bookedNotes?: string;
   deviceInfo: {
     productCode: string;
     type: string;
@@ -124,6 +127,33 @@ const MAINTENANCE_DETAILS: Record<string, {
     ],
     totalCost: '200.000đ',
     deviceImage: require('@/assets/images/so_tay_ezcare/may_lanh.png'),
+  },
+  '3': {
+    id: '3',
+    day: '11',
+    month: 'Tháng 1',
+    title: 'MÁY NƯỚC NÓNG ARISTON',
+    description: 'Bảo dưỡng định kỳ lần 2 kiểm vệ sinh máy',
+    price: '100.000đ',
+    status: 'scheduled',
+    hasAssignedStore: true,
+    assignedStoreId: '1',
+    // Thông tin đã đặt lịch sẵn
+    bookedTimeSlot: '15:00 - 16:30',
+    bookedNotes: '',
+    deviceInfo: {
+      productCode: 'SM45E/PE',
+      type: 'Năng lượng mặt trời',
+      capacity: '150 lít',
+      color: 'Trắng',
+      warrantyInfo: '30/5/2025 - 30/5/2026'
+    },
+    repairCosts: [
+      { item: 'Phí bảo dưỡng định kỳ lần 2', cost: '100.000đ' },
+      { item: 'Phí dịch vụ', cost: '0đ' },
+    ],
+    totalCost: '100.000đ',
+    deviceImage: require('@/assets/images/so_tay_ezcare/may_nuoc_nong.png'),
   }
 };
 
@@ -131,13 +161,15 @@ export default function RepairDetailScreen() {
   const router = useRouter();
   const { maintenanceId } = useLocalSearchParams<{ maintenanceId: string }>();
 
+  const maintenance = MAINTENANCE_DETAILS[maintenanceId as keyof typeof MAINTENANCE_DETAILS];
+
+  // Khởi tạo state - nếu status = 'scheduled' thì đã đặt lịch sẵn
+  const initialIsBooked = maintenance?.status === 'scheduled' && !!maintenance.bookedTimeSlot;
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
-  const [isBooked, setIsBooked] = useState<boolean>(false);
-  const [bookedTimeSlot, setBookedTimeSlot] = useState<string>('');
-  const [bookedNotes, setBookedNotes] = useState<string>('');
-
-  const maintenance = MAINTENANCE_DETAILS[maintenanceId as keyof typeof MAINTENANCE_DETAILS];
+  const [isBooked, setIsBooked] = useState<boolean>(initialIsBooked);
+  const [bookedTimeSlot, setBookedTimeSlot] = useState<string>(maintenance?.bookedTimeSlot || '');
+  const [bookedNotes, setBookedNotes] = useState<string>(maintenance?.bookedNotes || '');
 
   if (!maintenance) {
     return (

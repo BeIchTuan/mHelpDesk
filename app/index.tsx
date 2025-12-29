@@ -45,9 +45,9 @@ export default function IntroScreen() {
   }, []);
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-white">
       {/* Text "Care made easy" ở góc phải trên */}
-      <Animated.Text 
+      <Animated.Text
         className="absolute right-5 z-10 text-sm text-secondary font-medium"
         style={{
           top: height * 0.05,

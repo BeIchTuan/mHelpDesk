@@ -80,7 +80,8 @@ const MAINTENANCE_ITEMS: MaintenanceItem[] = [
     description: 'Bảo dưỡng định kỳ lần 1 kiểm về sinh máy',
     price: '100.000đ',
     status: 'scheduled',
-    hasAssignedStore: false,
+    hasAssignedStore: true,
+    assignedStoreId: '1',
   },
   {
     id: '4',

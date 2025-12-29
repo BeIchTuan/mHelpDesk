@@ -1,12 +1,13 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import {
-    Image,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -37,10 +38,13 @@ const SELECTED_STORE = {
 
 export default function ServiceConfirmationScreen() {
   const router = useRouter();
-  const { maintenanceId, selectedStore } = useLocalSearchParams<{ 
+  const { maintenanceId, selectedStore } = useLocalSearchParams<{
     maintenanceId: string;
     selectedStore: string;
   }>();
+
+  // State để theo dõi trạng thái xác nhận
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const sectionStyle = {
     backgroundColor: '#FFFAF6',
@@ -64,10 +68,10 @@ export default function ServiceConfirmationScreen() {
       <Stack.Screen options={{ headerShown: false }} />
       <SafeAreaView className="flex-1 bg-[#EDF7FF]" edges={['top']}>
         <StatusBar style="dark" backgroundColor="#EDF7FF" />
-      
+
         {/* Header */}
         <View className="bg-[#EDF7FF] px-5 pt-2 pb-4 flex-row items-center">
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => router.back()}
             activeOpacity={0.7}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -77,7 +81,9 @@ export default function ServiceConfirmationScreen() {
               style={{ width: 32, height: 32, tintColor: '#4BA8F5' }}
             />
           </TouchableOpacity>
-          <Text className="flex-1 text-lg font-bold text-[#39A3FF] text-center uppercase">CHI TIẾT SỬA CHỮA</Text>
+          <Text className="flex-1 text-lg font-bold text-[#39A3FF] text-center uppercase">
+            {isConfirmed ? 'CHI TIẾT SỬA CHỮA' : 'ĐẶT DỊCH VỤ'}
+          </Text>
           <TouchableOpacity onPress={() => router.replace('/(tabs)')}>
             <Image
               source={require('@/assets/images/home.png')}
@@ -101,7 +107,7 @@ export default function ServiceConfirmationScreen() {
                   <Text className="text-xs text-[#666666]">Tháng 1</Text>
                 </View>
                 {/* Status Icon */}
-                <Image 
+                <Image
                   source={require('@/assets/images/so_tay_ezcare/chua_dat_lich.png')}
                   className="absolute -bottom-1 right-1 w-4 h-4"
                   resizeMode="contain"
@@ -127,8 +133,8 @@ export default function ServiceConfirmationScreen() {
           <View style={sectionStyle}>
             <View className="flex-row">
               <View className="w-24 h-32 rounded-xl overflow-hidden bg-gray-50 mr-4">
-                <Image 
-                  source={require('@/assets/images/tu-lanh.png')} 
+                <Image
+                  source={require('@/assets/images/tu-lanh.png')}
                   style={{ width: 96, height: 128 }}
                   resizeMode="cover"
                 />
@@ -157,14 +163,14 @@ export default function ServiceConfirmationScreen() {
           {/* Repair Costs */}
           <View style={sectionStyle}>
             <Text className="text-base font-bold text-[#39A3FF] mb-4">CHI PHÍ SỬA CHỮA</Text>
-            
+
             {REPAIR_COSTS.map((cost, index) => (
               <View key={index} className="flex-row justify-between items-center py-2 border-b border-gray-100">
                 <Text className="flex-1 text-sm text-[#666666]">{cost.item}</Text>
                 <Text className="text-sm text-[#666666] font-semibold">{cost.cost}</Text>
               </View>
             ))}
-            
+
             <View className="flex-row justify-between items-center py-3 mt-2">
               <Text className="text-base font-bold text-[#FF9149]">Tổng cộng</Text>
               <Text className="text-base font-bold text-[#FF9149]">
@@ -191,7 +197,7 @@ export default function ServiceConfirmationScreen() {
                   <Text className="text-xs text-[#666666] mb-3 leading-4">
                     {SELECTED_STORE.description}
                   </Text>
-                  
+
                   <View className="space-y-2">
                     <View className="flex-row items-start">
                       <Text className="text-xs text-[#666666] w-16">Địa chỉ:</Text>
@@ -219,10 +225,15 @@ export default function ServiceConfirmationScreen() {
             </View>
           </View>
 
-          {/* Confirm Button */}
-          <TouchableOpacity className="bg-[#39A3FF] rounded-lg py-4 mt-4">
-            <Text className="text-white text-center font-bold text-base">Xác nhận đặt dịch vụ</Text>
-          </TouchableOpacity>
+          {/* Confirm Button - Ẩn khi đã xác nhận */}
+          {!isConfirmed && (
+            <TouchableOpacity
+              className="bg-[#39A3FF] rounded-lg py-4 mt-4"
+              onPress={() => setIsConfirmed(true)}
+            >
+              <Text className="text-white text-center font-bold text-base">Xác nhận đặt dịch vụ</Text>
+            </TouchableOpacity>
+          )}
 
         </ScrollView>
       </SafeAreaView>
