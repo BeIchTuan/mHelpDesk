@@ -69,6 +69,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
+          href: null, // Ẩn khỏi tab bar theo thiết kế
           title: 'Dịch vụ',
           tabBarIcon: ({ focused }) => (
             <Image
@@ -113,6 +114,25 @@ export default function TabLayout() {
               source={focused
                 ? require('@/assets/images/tab/filled/Icon.png')
                 : require('@/assets/images/tab/outline/bell.png')
+              }
+              style={{
+                width: 24,
+                height: 24,
+                tintColor: focused ? '#39A3FF' : '#B0D4F2',
+              }}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="account"
+        options={{
+          title: 'Tài khoản',
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={focused
+                ? require('@/assets/images/icon/filled/account.png')
+                : require('@/assets/images/icon/account.png')
               }
               style={{
                 width: 24,
