@@ -1,6 +1,22 @@
 # EzCare - Ứng dụng Chăm sóc Vật dụng Gia đình
 
-> **"Giúp bạn hiểu và chăm sóc ngôi nhà chủ động và dễ dàng hơn mỗi ngày."**
+> **Vision Product: "Giúp bạn hiểu và chăm sóc ngôi nhà chủ động và dễ dàng hơn mỗi ngày."**
+
+- Đồ án môn học SE215.Q12 - Giao tiếp người máy
+- Trường Đại học Công nghệ Thông tin, Đại học Quốc gia Thành phố Hồ Chí Minh (ĐHQG-HCM)
+- Khoa: Công nghệ Phần mềm (Software Engineering)
+- GVHD: ThS. Nguyễn Công Hoan
+- Nhóm sinh viên thực hiện: Nhóm 8
+
+## Danh sách thành viên
+
+| STT | Họ và tên              | MSSV     | Chức vụ     |
+|:---:|------------------------|----------|-------------|
+| 1   | Nguyễn Ngọc Thanh Tuyền | 22521631 | Nhóm trưởng |
+| 2   | Huỳnh Trung            | 22521555 | Thành viên  |
+| 3   | Bế Ích Tuân            | 22521595 | Thành viên  |
+| 4   | Trần Quốc Trung        | 22521569 | Thành viên  |
+
 
 ## 📖 Giới thiệu
 
