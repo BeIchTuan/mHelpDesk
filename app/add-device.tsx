@@ -1,8 +1,8 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Image,
   Modal,
@@ -16,6 +16,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AddDeviceScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ scannedData?: string }>();
+
   const [deviceName, setDeviceName] = useState('');
   const [productCode, setProductCode] = useState('');
   const [deviceType, setDeviceType] = useState('');
@@ -30,6 +32,28 @@ export default function AddDeviceScreen() {
   const [showRoomPicker, setShowRoomPicker] = useState(false);
   const [showMaintenancePicker, setShowMaintenancePicker] = useState(false);
   const [deviceStatus, setDeviceStatus] = useState<'stable' | 'maintenance' | 'broken' | ''>('');
+
+  // Fill data from scanned barcode
+  useEffect(() => {
+    if (params.scannedData) {
+      try {
+        const data = JSON.parse(params.scannedData);
+        if (data.deviceName) setDeviceName(data.deviceName);
+        if (data.productCode) setProductCode(data.productCode);
+        if (data.deviceType) setDeviceType(data.deviceType);
+        if (data.selectedRoom) setSelectedRoom(data.selectedRoom);
+        if (data.selectedRoomLabel) setSelectedRoomLabel(data.selectedRoomLabel);
+        if (data.description) setDescription(data.description);
+        if (data.purchaseDate) setPurchaseDate(data.purchaseDate);
+        if (data.warrantyExpiry) setWarrantyExpiry(data.warrantyExpiry);
+        if (data.maintenanceInterval) setMaintenanceInterval(data.maintenanceInterval);
+        if (data.maintenanceIntervalLabel) setMaintenanceIntervalLabel(data.maintenanceIntervalLabel);
+        if (data.deviceStatus) setDeviceStatus(data.deviceStatus);
+      } catch (error) {
+        console.error('Error parsing scanned data:', error);
+      }
+    }
+  }, [params.scannedData]);
 
   const rooms = [
     { label: 'Tại phòng khách', value: 'living-room' },
@@ -67,7 +91,8 @@ export default function AddDeviceScreen() {
       return;
     }
     console.log('Submit device');
-    router.back();
+    // Navigate to my-items screen after saving
+    router.replace('/(tabs)/my-items' as any);
   };
 
   return (
@@ -75,7 +100,7 @@ export default function AddDeviceScreen() {
       <StatusBar style="dark" backgroundColor="#FFFFFF" />
       {/* Header */}
       <View className="px-5 pt-2 pb-4 flex-row items-center bg-white">
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => {
             console.log('Back button pressed in add-device');
             if (router.canGoBack()) {
@@ -93,9 +118,9 @@ export default function AddDeviceScreen() {
           />
         </TouchableOpacity>
         <Text className="flex-1 text-lg font-bold text-center" style={{ color: '#39A3FF' }}>THÊM VẬT DỤNG MỚI</Text>
-        <TouchableOpacity onPress={() => router.replace('/(tabs)')}>
+        <TouchableOpacity onPress={() => router.push('/scan-barcode' as any)}>
           <Image
-            source={require('@/assets/images/home.png')}
+            source={require('@/assets/images/scan.png')}
             style={{ width: 32, height: 32 }}
           />
         </TouchableOpacity>
@@ -176,13 +201,13 @@ export default function AddDeviceScreen() {
             <Text style={{ fontSize: 15, color: !selectedRoom ? 'rgba(57, 163, 255, 0.7)' : '#39A3FF' }}>
               {selectedRoomLabel}
             </Text>
-            <MaterialIcons 
-              name={showRoomPicker ? "keyboard-arrow-up" : "keyboard-arrow-down"} 
-              size={24} 
-              color="#39A3FF" 
+            <MaterialIcons
+              name={showRoomPicker ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+              size={24}
+              color="#39A3FF"
             />
           </TouchableOpacity>
-          
+
           {/* Dropdown list */}
           {showRoomPicker && (
             <View className="bg-blue-50 border border-blue-200 border-t-0 rounded-b-xl overflow-hidden">
@@ -269,13 +294,13 @@ export default function AddDeviceScreen() {
             <Text style={{ fontSize: 15, color: !maintenanceInterval ? 'rgba(57, 163, 255, 0.7)' : '#39A3FF' }}>
               {maintenanceIntervalLabel}
             </Text>
-            <MaterialIcons 
-              name={showMaintenancePicker ? "keyboard-arrow-up" : "keyboard-arrow-down"} 
-              size={24} 
-              color="#39A3FF" 
+            <MaterialIcons
+              name={showMaintenancePicker ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+              size={24}
+              color="#39A3FF"
             />
           </TouchableOpacity>
-          
+
           {/* Dropdown list */}
           {showMaintenancePicker && (
             <View className="bg-white border border-blue-200 border-t-0 rounded-b-xl overflow-hidden">
@@ -300,11 +325,11 @@ export default function AddDeviceScreen() {
           <Text className="text-sm font-semibold mb-3" style={{ color: '#39A3FF' }}>Tình trạng hoạt động hiện tại <Text style={{ color: '#FF0000' }}>*</Text></Text>
           <View className="flex-row items-center">
             {/* Ổn định */}
-            <TouchableOpacity 
+            <TouchableOpacity
               className="flex-row items-center mr-6"
               onPress={() => setDeviceStatus('stable')}
             >
-              <View 
+              <View
                 className="w-5 h-5 rounded-full mr-2 items-center justify-center"
                 style={{ backgroundColor: 'rgba(176, 212, 242, 0.3)' }}
               >
@@ -316,11 +341,11 @@ export default function AddDeviceScreen() {
             </TouchableOpacity>
 
             {/* Sắp bảo trì */}
-            <TouchableOpacity 
+            <TouchableOpacity
               className="flex-row items-center mr-6"
               onPress={() => setDeviceStatus('maintenance')}
             >
-              <View 
+              <View
                 className="w-5 h-5 rounded-full mr-2 items-center justify-center"
                 style={{ backgroundColor: 'rgba(176, 212, 242, 0.3)' }}
               >
@@ -332,11 +357,11 @@ export default function AddDeviceScreen() {
             </TouchableOpacity>
 
             {/* Bị hỏng */}
-            <TouchableOpacity 
+            <TouchableOpacity
               className="flex-row items-center"
               onPress={() => setDeviceStatus('broken')}
             >
-              <View 
+              <View
                 className="w-5 h-5 rounded-full mr-2 items-center justify-center"
                 style={{ backgroundColor: 'rgba(176, 212, 242, 0.3)' }}
               >
@@ -390,14 +415,13 @@ export default function AddDeviceScreen() {
                 <IconSymbol name="xmark" size={24} color="#999" />
               </TouchableOpacity>
             </View>
-            
+
             <ScrollView showsVerticalScrollIndicator={false}>
               {rooms.map((room) => (
                 <TouchableOpacity
                   key={room.value}
-                  className={`flex-row justify-between items-center py-4 px-4 rounded-xl mb-2 ${
-                    selectedRoom === room.value ? 'bg-blue-50' : 'bg-white'
-                  }`}
+                  className={`flex-row justify-between items-center py-4 px-4 rounded-xl mb-2 ${selectedRoom === room.value ? 'bg-blue-50' : 'bg-white'
+                    }`}
                   onPress={() => handleRoomSelect(room)}
                   style={{ borderWidth: 1, borderColor: selectedRoom === room.value ? '#39A3FF' : '#E0E0E0' }}
                 >
@@ -437,14 +461,13 @@ export default function AddDeviceScreen() {
                 <IconSymbol name="xmark" size={24} color="#999" />
               </TouchableOpacity>
             </View>
-            
+
             <ScrollView showsVerticalScrollIndicator={false}>
               {maintenanceIntervals.map((interval) => (
                 <TouchableOpacity
                   key={interval.value}
-                  className={`flex-row justify-between items-center py-4 px-4 rounded-xl mb-2 ${
-                    maintenanceInterval === interval.value ? 'bg-blue-50' : 'bg-white'
-                  }`}
+                  className={`flex-row justify-between items-center py-4 px-4 rounded-xl mb-2 ${maintenanceInterval === interval.value ? 'bg-blue-50' : 'bg-white'
+                    }`}
                   onPress={() => handleMaintenanceSelect(interval)}
                   style={{ borderWidth: 1, borderColor: maintenanceInterval === interval.value ? '#39A3FF' : '#E0E0E0' }}
                 >

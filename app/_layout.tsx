@@ -20,6 +20,8 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="device-detail" options={{ headerShown: false }} />
         <Stack.Screen name="add-device" options={{ headerShown: false }} />
+        <Stack.Screen name="scan-barcode" options={{ headerShown: false }} />
+        <Stack.Screen name="confirm-barcode" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />
